@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday BuBu! 🚀</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top, #2b3965 0%, #050617 55%, #02010c 100%);
+            color: #fff;
+            overflow: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* SPACE BACKGROUND */
+        .space-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .stars {
+            position: absolute;
+            inset: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .nebula-1 {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(255, 135, 180, 0.45), transparent);
+            top: -100px;
+            right: -120px;
+        }
+
+        .nebula-2 {
+            width: 460px;
+            height: 460px;
+            background: radial-gradient(circle, rgba(116, 143, 252, 0.35), transparent);
+            bottom: -200px;
+            left: -150px;
+        }
+
+        .nebula-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 212, 59, 0.25), transparent);
+            top: 45%;
+            right: 5%;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(25px); }
+        }
+
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 7s ease-in-out infinite;
+            filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.15));
+        }
+
+        .planet-1 {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #ff7b7b, #bb2929);
+            top: 8%;
+            right: 4%;
+            animation-duration: 9s;
+        }
+
+        .planet-2 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #ffd857, #e7a90c);
+            bottom: 14%;
+            left: 6%;
+            animation-duration: 11s;
+        }
+
+        .planet-3 {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 30% 30%, #8ea2ff, #5c7cfa);
+            top: 52%;
+            left: 8%;
+            animation-duration: 8s;
+        }
+
+        /* SCREENS */
+        .screen {
+            display: none;
+            position: absolute;
+            inset: 0;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            animation: fadeIn 0.7s ease-in;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-box {
+            text-align: center;
+            background: rgba(8, 9, 30, 0.8);
+            padding: 32px 26px;
+            border-radius: 22px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+            max-width: 420px;
+            width: 88%;
+        }
+
+        .title-main {
+            font-size: 2.1em;
+            margin-bottom: 12px;
+            color: #ffe066;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.05em;
+            margin-bottom: 24px;
+            color: #f3f0ff;
+            opacity: 0.9;
+        }
+
+        /* PASSWORD */
+        #password {
+            padding: 12px 16px;
+            font-size: 1.1em;
+            border: 1px solid #ffe066;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            text-align: center;
+            width: 180px;
+            outline: none;
+            transition: all 0.25s;
+        }
+
+        #password::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #password:focus {
+            box-shadow: 0 0 16px rgba(255, 224, 102, 0.6);
+            transform: scale(1.03);
+        }
+
+        #error-msg {
+            color: #ff8787;
+            margin-top: 10px;
+            font-size: 0.95em;
+            display: none;
+        }
+
+        /* EXCITEMENT SCREEN */
+        .btn-row {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .big-btn {
+            padding: 14px 32px;
+            font-size: 1.05em;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: white;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #38d996, #16a36b);
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-1px) scale(1.04);
+            box-shadow: 0 0 18px rgba(56, 217, 150, 0.6);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #91a7ff, #5c7cfa);
+        }
+
+        .no-btn:hover {
+            transform: translateY(-1px) scale(1.04);
+            box-shadow: 0 0 18px rgba(145, 167, 255, 0.6);
+        }
+
+        /* SLIDES */
+        #slides-screen {
+            background: transparent;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            text-align: center;
+            width: 92%;
+            max-width: 720px;
+            position: relative;
+            z-index: 11;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: rgba(8, 9, 30, 0.82);
+            padding: 32px 26px;
+            border-radius: 22px;
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .slide-content.with-planets::before {
+            content: '';
+            position: absolute;
+            width: 72px;
+            height: 72px;
+            background: radial-gradient(circle at 30% 30%, #ff7b7b, #bb2929);
+            border-radius: 50%;
+            bottom: -26px;
+            right: -26px;
+            opacity: 0.75;
+            filter: drop-shadow(0 0 18px rgba(255, 123, 123, 0.6));
+        }
+
+        .slide-content.with-planets::after {
+            content: '';
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            background: radial-gradient(circle at 30% 30%, #ffd857, #e7a90c);
+            border-radius: 50%;
+            top: -20px;
+            left: -20px;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 16px rgba(255, 216, 87, 0.6));
+        }
+
+        .emoji-large {
+            font-size: 2.4em;
+            margin: 8px 0 14px;
+        }
+
+        .slide h2 {
+            font-size: 1.8em;
+            margin-bottom: 14px;
+            color: #ffe066;
+            font-weight: 600;
+        }
+
+        .slide p {
+            font-size: 0.99em;
+            line-height: 1.7;
+            margin-bottom: 14px;
+            color: #f1f3f5;
+        }
+
+        .quote {
+            font-size: 1.05em;
+            font-style: italic;
+            color: #ffb3c6;
+            margin: 16px 0;
+            text-shadow: 0 0 10px rgba(255, 179, 198, 0.25);
+            border-left: 3px solid #ffe066;
+            padding-left: 12px;
+        }
+
+        .slide-btn {
+            padding: 10px 26px;
+            font-size: 1em;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s;
+            background: linear-gradient(135deg, #ff80b5, #ff9ec5);
+            color: white;
+            font-weight: 500;
+        }
+
+        .slide-btn:hover {
+            transform: translateY(-1px) scale(1.04);
+            box-shadow: 0 0 20px rgba(255, 128, 181, 0.7);
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            font-size: 0.95em;
+            color: #ffe066;
+            background: rgba(8, 9, 30, 0.8);
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 224, 102, 0.4);
+            z-index: 12;
+        }
+
+        .space-list {
+            text-align: left;
+            display: inline-block;
+            margin: 10px auto 4px;
+        }
+
+        .space-list li {
+            list-style: none;
+            margin: 8px 0;
+            padding-left: 26px;
+            position: relative;
+            font-size: 0.98em;
+        }
+
+        .space-list li::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            color: #ffd857;
+            font-size: 0.95em;
+        }
+
+        .confetti,
+        .burst-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .confetti-piece {
+            width: 9px;
+            height: 9px;
+            display: block;
+            border-radius: 2px;
+            animation: confetti-fall 3.2s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .burst-star-shape {
+            position: absolute;
+            width: 6px;
+            height: 40px;
+            background: linear-gradient(to bottom, #fff8c2, transparent);
+            transform-origin: top center;
+            animation: burst 0.9s ease-out forwards;
+        }
+
+        @keyframes burst {
+            from { transform: scaleY(0.1); opacity: 1; }
+            to { transform: scaleY(1) translateY(12px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACKGROUND MUSIC (ADD YOUR MP3 FILE IN SAME FOLDER) -->
+    <audio id="bg-music" src="music.mp3" loop></audio>
+
+<script>
+document.addEventListener("click", () => {
+  document.getElementById("bg-music").play();
+}, { once: true });
+</script>
+
+    <!-- SPACE BACKGROUND -->
+    <div class="space-bg">
+        <div class="stars" id="stars"></div>
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+        <div class="planet planet-1"></div>
+        <div class="planet planet-2"></div>
+        <div class="planet planet-3"></div>
+    </div>
+
+    <!-- PASSWORD SCREEN -->
+    <div class="screen active" id="lock-screen">
+        <div class="glass-box">
+            <div class="emoji-large">🌌</div>
+            <h1 class="title-main">BuBu's Space Journey</h1>
+            <p class="subtitle">Enter the day you were born to unlock your little universe</p>
+            <input type="password" id="password" placeholder="DDMM" maxlength="4" oninput="checkPass()">
+            <p id="error-msg">That doesn’t look like your birthday, BuBu. Try again 🌙</p>
+        </div>
+    </div>
+
+    <!-- EXCITEMENT SCREEN -->
+    <div class="screen" id="excitement-screen">
+        <div class="glass-box">
+            <div class="emoji-large">🚀</div>
+            <h1 class="title-main" style="font-size:1.7em;">BuBu, ready for takeoff?</h1>
+            <p class="subtitle">This trip has been custom-made for you, with stars, planets and a little bit of my heart in every slide.</p>
+            <div class="btn-row">
+                <button class="big-btn yes-btn" onclick="handleExcitement('yes')">Yes, Captain! 🌟</button>
+                <button class="big-btn no-btn" onclick="handleExcitement('no')">Hmm, not sure yet 👀</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDES -->
+    <div class="screen" id="slides-screen">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">6</span>
+        </div>
+
+        <!-- SLIDE 1 -->
+        <div class="slide active">
+            <div class="slide-content with-planets">
+                <div class="emoji-large">🌟</div>
+                <h2>Welcome to Your Birthday Universe</h2>
+                <p>Hey BuBu! 👋</p>
+                <p>I built this tiny universe just for you today. Every star here is a little reminder of how special you are.</p>
+                <p class="quote">In all this endless space, you are the one star that feels like home.</p>
+                <p style="color:#ffb3c6;margin-top:6px;">You are soft, warm and so rare — like a star I never thought I’d find.</p>
+                <button class="slide-btn" onclick="nextSlide()">Next ★</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="slide">
+            <div class="slide-content with-planets">
+                <div class="emoji-large">🪐</div>
+                <h2>On Your Space-Day</h2>
+                <p style="color:#ffe066;font-weight:500;">On February 5, 2004, far away in space…</p>
+                <p>The Hubble Space Telescope was capturing a galaxy called NGC 1569, a tiny galaxy bursting with newborn stars.</p>
+                <p>While that galaxy was busy creating stars, here on Earth, a very important one was born too — you, BuBu.</p>
+                <p class="quote">The universe didn’t just make more stars that day… it made someone warm, kind and uniquely bright.</p>
+                <p>So if you ever doubt yourself, remember: the sky was literally making more light the day you arrived.</p>
+                <button class="slide-btn" onclick="nextSlide()">Next ★</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="slide">
+            <div class="slide-content with-planets">
+                <div class="emoji-large">💫</div>
+                <h2>Our Constellation Story</h2>
+                <p style="color:#ffe066;font-weight:500;margin-bottom:6px;">How two random stars became a constellation:</p>
+                <ul class="space-list">
+                    <li>We were just strangers, like two quiet stars far apart in the same sky.</li>
+                    <li>Then slowly, we drifted closer, like they were drawing a new constellation around us.</li>
+                    <li>We explored our true shades, showing each other all our colors, not just the pretty ones.</li>
+                    <li>We became so comfy that your orbit felt like the safest place to be.</li>
+                    <li>Some nights were cloudy, some days were rough, but our gravity stayed strong.</li>
+                    <li>At the end of every day, no matter what, we were still there — star to star, side by side.</li>
+                </ul>
+                <p style="margin-top:10px;">Some people just see stars. I see us — two lights that chose to stay in the same sky.</p>
+                <button class="slide-btn" onclick="nextSlide()">Next ★</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 -->
+        <div class="slide">
+            <div class="slide-content with-planets">
+                <div class="emoji-large">⭐</div>
+                <h2>What I Love About BuBu</h2>
+                <ul class="space-list">
+                    <li>You make me feel warm in this relationship, like a tiny sun I can always come back to when everything feels cold.</li>
+                    <li>You respect me and encourage me, like a voice saying “go higher, you can reach that star” when I doubt myself.</li>
+                    <li>You handle all my moods with so much patience, even when I’m a whole galaxy of storms and supernovas.</li>
+                    <li>You became my safe space — the place I run to when I want to escape the entire world and just float quietly for a while.</li>
+                </ul>
+                <p class="quote">You’re not just in my universe, BuBu. You are the calm, the warmth and the sky I look up to.</p>
+                <button class="slide-btn" onclick="nextSlide()">Next ★</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 -->
+        <div class="slide">
+            <div class="slide-content with-planets">
+                <div class="emoji-large">🎂</div>
+                <h2>A Birthday Wish From Me</h2>
+                <p>BuBu, on your birthday, I quietly wish for a life where you never stop shining.</p>
+                <ul class="space-list">
+                    <li>Good health, steady mind and a heart that always finds reasons to smile.</li>
+                    <li>Success in the things you love doing, in your own timing, your own way.</li>
+                    <li>Adventures that feel like new galaxies, full of stories we’ll laugh about later.</li>
+                    <li>Dreams so big that they scare you a little, but make you proud a lot.</li>
+                    <li>And most of all, a life where you always feel trusted, supported and believed in.</li>
+                </ul>
+                <p style="margin-top:10px;color:#ffb3c6;">I trust you — with my heart, my thoughts and the version of me that only you get to see.</p>
+                <button class="slide-btn" onclick="nextSlide()">One Last ★</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 6 -->
+        <div class="slide">
+            <div class="slide-content with-planets">
+                <div class="emoji-large">🌠</div>
+                <h2>The Best Part</h2>
+                <p class="quote">Having you in my life is already the biggest gift the universe could have given me.</p>
+                <p>Happy Birthday, BuBu. 🌌</p>
+                <p>One day, I’ll be sitting next to you, pointing at the sky and saying, “Look, that’s your birthday galaxy.”</p>
+                <p style="color:#ffb3c6;margin-top:18px;font-size:1.05em;">Until then, I’m sending all my love across the stars — always on your side, always in your corner.</p>
+                <button class="slide-btn" onclick="celebrate()">Celebrate with the stars ✨</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctPassword = "0502";
+        let currentSlide = 0;
+        const totalSlides = 6;
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 160; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = Math.random() * 2.5 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // start pleasant music after first decision
+        function startMusic() {
+            const audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.volume = 0.35;
+                audio.play().catch(() => {
+                    // if browser blocks autoplay, just ignore
+                });
+            }
+        }
+
+        function checkPass() {
+            const input = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+
+            if (input === correctPassword) {
+                errorMsg.style.display = 'none';
+                setTimeout(() => {
+                    document.getElementById('lock-screen').classList.remove('active');
+                    document.getElementById('excitement-screen').classList.add('active');
+                }, 400);
+            } else if (input.length === 4) {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function handleExcitement(choice) {
+            startMusic();  // music begins once he presses Yes / No
+
+            if (choice === 'yes') {
+                startSlides();
+            } else {
+                alert("Okay BuBu, but this universe was handmade for you. Just peek a little? ⭐");
+                setTimeout(() => startSlides(), 700);
+            }
+        }
+
+        function startSlides() {
+            document.getElementById('excitement-screen').classList.remove('active');
+            document.getElementById('slides-screen').classList.add('active');
+            updateSlideCounter();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                document.querySelector('.slide.active').classList.remove('active');
+                currentSlide++;
+                document.querySelectorAll('.slide')[currentSlide].classList.add('active');
+                updateSlideCounter();
+            }
+        }
+
+        function updateSlideCounter() {
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            document.getElementById('total-slides').textContent = totalSlides;
+        }
+
+        function celebrate() {
+            for (let i = 0; i < 120; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.innerHTML = '<div class="confetti-piece"></div>';
+                const c = confetti.firstChild;
+                const colors = ['#ffe066', '#ff92c2', '#74c0fc', '#63e6be', '#ffd8a8'];
+                c.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3400);
+            }
+
+            for (let i = 0; i < 12; i++) {
+                const burst = document.createElement('div');
+                burst.classList.add('burst-star');
+                const ray = document.createElement('div');
+                ray.classList.add('burst-star-shape');
+                ray.style.transform = `rotate(${(360 / 12) * i}deg)`;
+                burst.style.left = '50vw';
+                burst.style.top = '45vh';
+                burst.appendChild(ray);
+                document.body.appendChild(burst);
+                setTimeout(() => burst.remove(), 900);
+            }
+
+            setTimeout(() => {
+                alert("🎉 Happy Birthday BuBu! 🌌\n\nYour little space nerd made you a whole universe. I hope you liked traveling through it. 💫.OOtoo ❤️");
+            }, 900);
+        }
+
+        createStars();
+    </script>
+</body>
+</html>
